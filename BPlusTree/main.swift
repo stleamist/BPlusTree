@@ -1,7 +1,7 @@
 
-let tree = BPlusTree(elementsCapacity: 2)
+let tree = BPlusTree(elementsCapacity: 3)
 
-for i in (1...5) {
+for i in (1...10) {
     tree.add(element: i)
 }
 

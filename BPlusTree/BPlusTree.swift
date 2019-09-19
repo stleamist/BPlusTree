@@ -104,6 +104,11 @@ class NonLeafNode: Node {
         self.children = children
     }
     
+    private func update(elements: [Element] = [], children: [Node] = []) {
+        self.elements = elements
+        self.children = children
+    }
+    
     func add(element: Element) -> SplitResult? {
         let childrenIndexToAdd = elements.firstIndex(where: { $0 > element }) ?? elements.count
         if let result = children[childrenIndexToAdd].add(element: element) {
@@ -124,9 +129,9 @@ class NonLeafNode: Node {
         let splitKey = elements[splitKeyIndex]
         
         let rightChild = NonLeafNode(capacity: capacity, elements: Array(elements[(splitKeyIndex + 1)...]), children: Array(children[(splitKeyIndex + 1)...]))
-        let leftChild = NonLeafNode(capacity: capacity, elements: Array(elements[..<splitKeyIndex]), children: Array(children[...splitKeyIndex]))
+        self.update(elements: Array(elements[..<splitKeyIndex]), children: Array(children[...splitKeyIndex]))
         
-        return (splitKey, leftChild, rightChild)
+        return (splitKey, self, rightChild)
     }
     
     func find(element: Element) -> Bool {
@@ -153,6 +158,11 @@ class LeafNode: Node {
         self.next = next
     }
     
+    private func update(elements: [Element] = [], next: LeafNode? = nil) {
+        self.elements = elements
+        self.next = next
+    }
+    
     func add(element: Element) -> SplitResult? {
         let indexToInsert = elements.firstIndex(where: { $0 > element }) ?? elements.count
         
@@ -170,9 +180,10 @@ class LeafNode: Node {
         let splitKey = elements[splitKeyIndex]
         
         let rightChild = LeafNode(capacity: capacity, elements: Array(elements[splitKeyIndex...]), next: next)
-        let leftChild = LeafNode(capacity: capacity, elements: Array(elements[..<splitKeyIndex]), next: rightChild)
+        // leftChild 인스턴스를 새로 생성하면 self를 next로 참조하는 LeafNode의 next 포인터를 변경할 수 없으므로 self를 변경해야 한다.
+        self.update(elements: Array(elements[..<splitKeyIndex]), next: rightChild)
         
-        return (splitKey, leftChild, rightChild)
+        return (splitKey, self, rightChild)
     }
     
     func find(element: Element) -> Bool {
