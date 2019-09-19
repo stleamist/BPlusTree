@@ -21,6 +21,64 @@ class BPlusTree {
     func find(element: Element) -> Bool {
         return self.rootNode.find(element: element)
     }
+    
+    func find(in range: ClosedRange<Element>) -> [Element] {
+        return self.rootNode.find(in: range)
+    }
+    
+    func findLeastLeafNode() -> LeafNode {
+        var node: Node = self.rootNode
+        
+        while true {
+            if let nonLeafNode = node as? NonLeafNode {
+                if let leftChild = nonLeafNode.children[safe: 0] {
+                    node = leftChild
+                }
+            } else if let leafNode = node as? LeafNode {
+                return leafNode
+            }
+        }
+    }
+    
+    func allElements() -> [[Element]] {
+        var result: [[Element]] = []
+        
+        var node: LeafNode = findLeastLeafNode()
+        
+        while true {
+            result.append(node.elements)
+            
+            if let nextNode = node.next {
+                node = nextNode
+            } else {
+                return result
+            }
+        }
+    }
+    
+    func printTree() {
+        var handler: (Node) -> [Any] = { $0.elements }
+        
+        while true {
+            let elementsAtLevel = handler(self.rootNode)
+            
+            if elementsAtLevel.flatten().count == 0 {
+                break
+            } else {
+                print(elementsAtLevel)
+            }
+            
+            let oldHandler = handler
+            handler = { ($0 as? NonLeafNode)?.children.map(oldHandler) ?? [] }
+        }
+    }
+    
+    func printTreeManually(_ node: Node) {
+        print(node.elements)
+        print((node as! NonLeafNode).children.map({ $0.elements }))
+        print((node as! NonLeafNode).children.map({ ($0 as! NonLeafNode).children.map({ $0.elements }) }))
+        print((node as! NonLeafNode).children.map({ ($0 as! NonLeafNode).children.map({ ($0 as! NonLeafNode).children.map({ $0.elements }) }) }))
+    }
 }
 
 protocol Node {
@@ -30,6 +88,7 @@ protocol Node {
     
     func add(element: Element) -> SplitResult?
     func find(element: Element) -> Bool
+    func find(in range: ClosedRange<Element>) -> [Element]
 }
 
 class NonLeafNode: Node {
@@ -74,6 +133,11 @@ class NonLeafNode: Node {
         let indexToFind = elements.firstIndex(where: { $0 > element }) ?? elements.count
         return children[indexToFind].find(element: element)
     }
+    
+    func find(in range: ClosedRange<Element>) -> [Element] {
+        let indexToFind = elements.firstIndex(where: { $0 > range.lowerBound }) ?? elements.count
+        return children[indexToFind].find(in: range)
+    }
 }
 
 class LeafNode: Node {
@@ -113,5 +177,30 @@ class LeafNode: Node {
     
     func find(element: Element) -> Bool {
         return elements.contains(element)
+    }
+    
+    func find(in range: ClosedRange<Element>) -> [Element] {
+        var result: [Element] = []
+        
+        var node: LeafNode = self
+        
+        while true {
+            for element in node.elements {
+                if element < range.lowerBound {
+                    continue
+                } else if element > range.upperBound {
+                    print(2)
+                    return result
+                } else {
+                    result.append(element)
+                }
+            }
+            
+            if let nextNode = node.next {
+                node = nextNode
+            } else {
+                return result
+            }
+        }
     }
 }

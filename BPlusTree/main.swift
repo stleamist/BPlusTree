@@ -1,12 +1,11 @@
 
 let tree = BPlusTree(elementsCapacity: 2)
 
-for i in (50...75).shuffled() {
+for i in (1...5) {
     tree.add(element: i)
 }
 
-for i in 0...100 {
-    print(tree.find(element: i), i)
-}
-
-print(tree.rootNode)
+print(tree.allElements())
+print()
+tree.printTree()
+print()

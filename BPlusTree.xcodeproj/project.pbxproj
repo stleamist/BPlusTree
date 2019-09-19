@@ -10,6 +10,7 @@
 		C7776C7523336E1900985EFE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7776C7423336E1900985EFE /* main.swift */; };
 		C7776C7D23336E2700985EFE /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7776C7B23336E2700985EFE /* Collection+Safe.swift */; };
 		C7776C7E23336E2700985EFE /* BPlusTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7776C7C23336E2700985EFE /* BPlusTree.swift */; };
+		C7776C822333D47100985EFE /* Array+Flatten.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7776C812333D47100985EFE /* Array+Flatten.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +30,7 @@
 		C7776C7423336E1900985EFE /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		C7776C7B23336E2700985EFE /* Collection+Safe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		C7776C7C23336E2700985EFE /* BPlusTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BPlusTree.swift; sourceTree = "<group>"; };
+		C7776C812333D47100985EFE /* Array+Flatten.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Flatten.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				C7776C7423336E1900985EFE /* main.swift */,
 				C7776C7C23336E2700985EFE /* BPlusTree.swift */,
 				C7776C7B23336E2700985EFE /* Collection+Safe.swift */,
+				C7776C812333D47100985EFE /* Array+Flatten.swift */,
 			);
 			path = BPlusTree;
 			sourceTree = "<group>";
@@ -128,6 +131,7 @@
 			files = (
 				C7776C7D23336E2700985EFE /* Collection+Safe.swift in Sources */,
 				C7776C7523336E1900985EFE /* main.swift in Sources */,
+				C7776C822333D47100985EFE /* Array+Flatten.swift in Sources */,
 				C7776C7E23336E2700985EFE /* BPlusTree.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
