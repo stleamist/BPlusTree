@@ -17,6 +17,10 @@ class BPlusTree {
             self.rootNode = NonLeafNode(capacity: elementsCapacity, elements: [result.newElement], children: [result.leftChild, result.rightChild])
         }
     }
+    
+    func find(element: Element) -> Bool {
+        return self.rootNode.find(element: element)
+    }
 }
 
 protocol Node {
@@ -25,6 +29,7 @@ protocol Node {
     var elements: [Element] { get set }
     
     func add(element: Element) -> SplitResult?
+    func find(element: Element) -> Bool
 }
 
 class NonLeafNode: Node {
@@ -55,7 +60,7 @@ class NonLeafNode: Node {
         return nil
     }
     
-    func splitted() -> SplitResult {
+    private func splitted() -> SplitResult {
         let splitKeyIndex = elements.count / 2
         let splitKey = elements[splitKeyIndex]
         
@@ -63,6 +68,11 @@ class NonLeafNode: Node {
         let leftChild = NonLeafNode(capacity: capacity, elements: Array(elements[..<splitKeyIndex]), children: Array(children[...splitKeyIndex]))
         
         return (splitKey, leftChild, rightChild)
+    }
+    
+    func find(element: Element) -> Bool {
+        let indexToFind = elements.firstIndex(where: { $0 > element }) ?? elements.count
+        return children[indexToFind].find(element: element)
     }
 }
 
@@ -91,7 +101,7 @@ class LeafNode: Node {
         return nil
     }
     
-    func splitted() -> SplitResult {
+    private func splitted() -> SplitResult {
         let splitKeyIndex = elements.count / 2
         let splitKey = elements[splitKeyIndex]
         
@@ -99,5 +109,9 @@ class LeafNode: Node {
         let leftChild = LeafNode(capacity: capacity, elements: Array(elements[..<splitKeyIndex]), next: rightChild)
         
         return (splitKey, leftChild, rightChild)
+    }
+    
+    func find(element: Element) -> Bool {
+        return elements.contains(element)
     }
 }
