@@ -1,12 +1,8 @@
-//
-//  main.swift
-//  BPlusTree
-//
-//  Created by 김동규 on 19/09/2019.
-//  Copyright © 2019 Stleam. All rights reserved.
-//
 
-import Foundation
+let tree = BPlusTree(elementsCapacity: 2)
 
-print("Hello, World!")
+for i in 1...4 {
+    tree.add(element: i)
+}
 
+print(tree.rootNode)
