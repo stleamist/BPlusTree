@@ -98,6 +98,8 @@ class NonLeafNode: Node {
     var elements: [Element] = []
     var children: [Node] = []
     
+    // MARK: Initialization & Update
+    
     init(capacity: Int, elements: [Element] = [], children: [Node] = []) {
         self.capacity = capacity
         self.elements = elements
@@ -108,6 +110,8 @@ class NonLeafNode: Node {
         self.elements = elements
         self.children = children
     }
+    
+    // MARK: Add
     
     func add(element: Element) -> SplitResult? {
         let childrenIndexToAdd = elements.firstIndex(where: { $0 > element }) ?? elements.count
@@ -134,6 +138,8 @@ class NonLeafNode: Node {
         return (splitKey, self, rightChild)
     }
     
+    // MARK: Find
+    
     func find(element: Element) -> Bool {
         let indexToFind = elements.firstIndex(where: { $0 > element }) ?? elements.count
         return children[indexToFind].find(element: element)
@@ -152,6 +158,8 @@ class LeafNode: Node {
     var elements: [Element]
     var next: LeafNode?
     
+    // MARK: Initialization & Update
+    
     init(capacity: Int, elements: [Element] = [], next: LeafNode? = nil) {
         self.capacity = capacity
         self.elements = elements
@@ -162,6 +170,8 @@ class LeafNode: Node {
         self.elements = elements
         self.next = next
     }
+    
+    // MARK: Add
     
     func add(element: Element) -> SplitResult? {
         let indexToInsert = elements.firstIndex(where: { $0 > element }) ?? elements.count
@@ -185,6 +195,8 @@ class LeafNode: Node {
         
         return (splitKey, self, rightChild)
     }
+    
+    // MARK: Find
     
     func find(element: Element) -> Bool {
         return elements.contains(element)
