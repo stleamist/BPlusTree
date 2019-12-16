@@ -84,12 +84,21 @@ class BPlusTree {
         }
     }
     
-    func printTreeManually(_ node: Node) {
-        print(node.elements)
-        print((node as! NonLeafNode).children.map({ $0.elements }))
-        print((node as! NonLeafNode).children.map({ ($0 as! NonLeafNode).children.map({ $0.elements }) }))
-        print((node as! NonLeafNode).children.map({ ($0 as! NonLeafNode).children.map({ ($0 as! NonLeafNode).children.map({ $0.elements }) }) }))
+    #if DEBUG
+    func printTreeManually() {
+        print(rootNode.elements)
+        print((rootNode as! NonLeafNode).children.map({ $0.elements }))
+        print((rootNode as! NonLeafNode).children.map({ ($0 as! NonLeafNode).children.map({ $0.elements }) }))
+        print((rootNode as! NonLeafNode).children.map({ ($0 as! NonLeafNode).children.map({ ($0 as! NonLeafNode).children.map({ $0.elements }) }) }))
     }
+    
+    func printTreeManually2() {
+        print(rootNode.elements)
+        print((rootNode as! NonLeafNode).children.map({ $0.elements }))
+        print((rootNode as! NonLeafNode).children.flatMap({ ($0 as! NonLeafNode).children }).map({ $0.elements }))
+        print((rootNode as! NonLeafNode).children.flatMap({ ($0 as! NonLeafNode).children }).flatMap({ ($0 as! NonLeafNode).children }).map({ $0.elements }))
+    }
+    #endif
 }
 
 protocol Node {
@@ -100,7 +109,7 @@ protocol Node {
     func add(element: Element) -> SplitResult?
     func find(element: Element) -> Bool
     func find(in range: ClosedRange<Element>) -> [Element]
-    func remove(element: Element) -> Bool
+    @discardableResult func remove(element: Element) -> Bool
     
     var isOverflow: Bool { get }
     var isUnderflow: Bool { get }
@@ -172,7 +181,7 @@ class NonLeafNode: Node {
     
     // MARK: Remove
     
-    func remove(element: Element) -> Bool {
+    @discardableResult func remove(element: Element) -> Bool {
         let childrenIndexToRemove = elements.firstIndex(where: { $0 > element }) ?? elements.count
         let childrenToRemove = self.children[childrenIndexToRemove]
         let leftSibling = self.children[safe: childrenIndexToRemove - 1]
@@ -239,10 +248,7 @@ class NonLeafNode: Node {
             }
         }
         
-        let result = self.isUnderflow
-        tree.printTree()
-        print()
-        return result
+        return self.isUnderflow
     }
 }
 
@@ -329,7 +335,7 @@ class LeafNode: Node {
     // MARK: Remove
     
     // return 값의 의미는 이 노드에서 언더플로우가 일어났기 때문에 부모 노드에서 이를 처리해주어야 한다는 뜻이다.
-    func remove(element: Element) -> Bool {
+    @discardableResult func remove(element: Element) -> Bool {
         self.elements.removeAll(where: { $0 == element })
         if self.isUnderflow {
             // TODO: 첫 번째 요소를 삭제했을 경우 부모 키를 바꿔야 함

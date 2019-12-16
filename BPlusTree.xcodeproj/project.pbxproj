@@ -98,7 +98,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = Stleam;
 				TargetAttributes = {
 					C7776C7023336E1900985EFE = {
@@ -255,6 +255,7 @@
 		C7776C7923336E1900985EFE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2765226H97;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -266,6 +267,7 @@
 		C7776C7A23336E1900985EFE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2765226H97;
 				ENABLE_HARDENED_RUNTIME = YES;
